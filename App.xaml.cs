@@ -1,20 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Services.Maps;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace luck
@@ -22,30 +11,20 @@ namespace luck
     /// <summary>
     /// 提供特定于应用程序的行为，以补充默认的应用程序类。
     /// </summary>
-    public class globle
-    {
-        public Luck luck1 = new Luck();
-        public string input;
-    }
     sealed partial class App : Application
     {
-        //public Luck llll;
         /// <summary>
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
         /// 已执行，逻辑上等同于 main() 或 WinMain()。
         /// </summary>
-        //public static Luck luck { get; private set; }
         public Luck Award = new Luck();
-        public int A = 5;
-        public int B = 80;
-        public int C = 450;
-        public List <int> inputList = new List<int>();
+        public int A = 1;
+        public int B = 1;
+        public int C = 1;
         public App()
         { 
-
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-            
         }
         /// <summary>
         /// 在应用程序由最终用户正常启动时进行调用。
