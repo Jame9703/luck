@@ -14,6 +14,9 @@ namespace luck
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        int FirstPrizeCount = (Application.Current as App).FirstPrizeCount,
+            SecondPrizeCount = (Application.Current as App).SecondPrizeCount,
+            ThirdPrizeCount = (Application.Current as App).ThirdPrizeCount;
         public MainPage()
         {
             this.InitializeComponent();
@@ -50,9 +53,9 @@ namespace luck
             {
                 IsSelect = true;
                 Button thisClickedButton = sender as Button;
-                string name = thisClickedButton.Name;
-                (Application.Current as App).Award.store_inputnum(name);
-                InputTextBox.Text = (Application.Current as App).Award.get_inputnum();
+                int.TryParse(thisClickedButton.Name, out int name_to_int);
+                (Application.Current as App).Award.store_inputnum(name_to_int);
+                InputTextBox.Text = (Application.Current as App).Award.get_inputnum().ToString();
                 thisClickedButton.Background = new SolidColorBrush(Colors.Green);
 
             }
@@ -74,8 +77,8 @@ namespace luck
         private void RenewButton_Click(object sender, RoutedEventArgs e)
         {
             IsSelect = false;
-            (Application.Current as App).Award.renew();
-            InputTextBox.Text = (Application.Current as App).Award.get_inputnum();
+            (Application.Current as App).Award.renew(FirstPrizeCount, SecondPrizeCount, ThirdPrizeCount);
+            InputTextBox.Text = (Application.Current as App).Award.get_inputnum().ToString();
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)

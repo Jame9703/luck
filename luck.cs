@@ -3,103 +3,104 @@
 //=================================================================================
 //=================================================================================
 //.setup();             初始化，参数：1、2、3等奖个数
-//.judge_if_win(num);   判断是否中奖 -1：未中奖，1、2、3：1、2、3等奖
+//.judge_one();   判断是否中奖 -1：未中奖，1、2、3：1、2、3等奖
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Windows.UI.Xaml;
 
 namespace luck
 {
     public class Luck
     {
-        private int FirstCnt, SecondCnt, ThirdCnt;
+        //此处定义会出现灾难性故障
+        //int FirstPrizeCount = (Application.Current as App).FirstPrizeCount,
+        //    SecondPrizeCount = (Application.Current as App).SecondPrizeCount,
+        //    ThirdPrizeCount = (Application.Current as App).ThirdPrizeCount;
         private List<int> LuckyNumbers = new List<int>();
-        private List<int> inputnum = new List<int>();
-        private List<int> first_win = new List<int>();
-        private List<int> second_win = new List<int>();
-        private List<int> third_win = new List<int>();
-        private List<int> not_win = new List<int>();
-        public Luck(int A = a, int B = b, int C = c)
+        int inputnum=0;
+        //public Luck(int A = a, int B = b, int C = c)
+        //{
+        //    FirstCnt = A; SecondCnt = B; ThirdCnt = C;
+        //    FillNum();
+        //}
+        //public void setup(int A, int B, int C)
+        //{
+        //    FirstPrizeCount = A; SecondPrizeCount = B; ThirdPrizeCount = C;
+        //    FillLuckyNumbers();
+        //}
+        public void renew(int A, int B, int C)
         {
-            FirstCnt = A; SecondCnt = B; ThirdCnt = C;
-            FillNum();
+            inputnum=0;
+            (Application.Current as App).FirstPrizeCount = A; (Application.Current as App).SecondPrizeCount = B; (Application.Current as App).ThirdPrizeCount = C;
+            FillLuckyNumbers();
         }
-        private const int a = 1, b = 1, c = 5;
-        public void setup(int A = a, int B = b, int C = c)
+        public void store_inputnum(int name_to_int)//name_to_int为将100个按钮的Name转换为int
         {
-            FirstCnt = A; SecondCnt = B; ThirdCnt = C;
-            FillNum();
+            inputnum=name_to_int;
         }
-        public void renew(int A = a, int B = b, int C = c)
+        public int get_inputnum()
         {
-            inputnum.Clear();
-            FirstCnt = A; SecondCnt = B; ThirdCnt = C;
-            FillNum();
-        }
-        public void store_inputnum(string str)
-        {
-            int tmp = Convert.ToInt16(str);
-            bool thesame = false;
-            for (int i = 0; i < inputnum.Count; i++)
-            {
-                if (inputnum[i] == tmp) thesame = true;
-            }
-            if (thesame == false) inputnum.Add(tmp);
-        }
-        public string get_inputnum(string sptr = " ") { return L2S(inputnum, sptr); }
-
-        private string L2S(List<int> ints, string sprtr = " ")
-        {
-            string str = "";
-            if (ints.Count == 0) return str;
-            for (int i = 0; i < ints.Count - 1; i++)
-            {
-                str += ints[i].ToString();
-                str += sprtr;
-            }
-            str += ints[ints.Count - 1].ToString();
-            return str;
+           return inputnum;
         }
         public int judge_one()
         {
-            if (inputnum.Count == 0) { return 3; }
-            int num = inputnum[0];
-            //if (FirstCnt + SecondCnt + ThirdCnt != LuckyNumbers.Count) return 0;
-            for (int i = 0; i < FirstCnt; i++)
-            { 
-                if (num == LuckyNumbers[i] && FirstCnt >= 0) return 1;
-            } 
-            for (int i = FirstCnt; i < SecondCnt + FirstCnt; i++)
+            FillLuckyNumbers();
+            if (inputnum == 0) { return 3; }
+            else
             {
-                if (num == LuckyNumbers[i] && SecondCnt >=0) return 2;
-            }
+                //TODO:后续将10，40替换为一等奖和二等奖概率
+                List<int> FirstPrizeList = LuckyNumbers.Take(10).ToList();//第1-10个
+                List<int> SecondPrizeList = LuckyNumbers.Skip(10).Take(30).ToList();//第11-40个
+                List<int> ThirdPrizeList = LuckyNumbers.Skip(40).Take(100).ToList();//第41-100个
+                if ((Application.Current as App).FirstPrizeCount > 0 && (Application.Current as App).SecondPrizeCount > 0 && (Application.Current as App).ThirdPrizeCount > 0)
+                {
+                    //for (int i = 0; i < 10; i++)
+                    //{
+                    //    if (inputnum == LuckyNumbers[i]) return 1;
+                    //}
+                    //for (int i = 10; i < 40; i++)
+                    //{
+                    //    if (inputnum == LuckyNumbers[i]) return 2;
+                    //}
+                    //for (int i = 40; i <= 100; i++)
+                    //{
+                    //    if (inputnum == LuckyNumbers[i]) return 3;
+                    //}
 
-            for (int i = SecondCnt + FirstCnt; i < ThirdCnt + SecondCnt + FirstCnt; i++)
-            {
-                if (num == LuckyNumbers[i] && ThirdCnt >= 0) return 3; 
-            } 
-            return -1;
+                    ///----------Contains判断集合是否包含元素-------------
+                    if (FirstPrizeList.Contains(inputnum))
+                    {
+                        return 1;
+                    }
+                    else if (SecondPrizeList.Contains(inputnum))
+                    {
+                        return 2;
+                    }
+                    else if (ThirdPrizeList.Contains(inputnum))
+                    {
+                        return 3;
+                    }
+                }
+                else
+                {
+                    //在此处写FirstPrizeCount，SecondPrizeCount，ThirdPrizeCount=0时执行的操作
+                }
+            }
+            return 3;
         }
-        public int judge_if_win_once(int num)
-        {
-            if (FirstCnt + SecondCnt + ThirdCnt != LuckyNumbers.Count) return 0;
-            for (int i = 0; i < FirstCnt; i++) if (num == LuckyNumbers[i]) return 1;
-            for (int i = FirstCnt; i < SecondCnt + FirstCnt; i++)
-            {
-                if (num == LuckyNumbers[i]) return 2;
-            } 
-            for (int i = SecondCnt + FirstCnt; i < ThirdCnt + SecondCnt + FirstCnt; i++) if (num == LuckyNumbers[i]) return 3;
-            return -1;
-        }
-        private void FillNum()
+        private void FillLuckyNumbers()
         {
             LuckyNumbers.Clear();
+            LuckyNumbers = Enumerable.Range(1, 100).ToList();
             Random random = new Random();
-            while (LuckyNumbers.Count < FirstCnt + SecondCnt + ThirdCnt)
-            {
-                int tmp = random.Next(1, 101);
-                LuckyNumbers.Remove(tmp);
-                LuckyNumbers.Add(tmp);
-            }
+            LuckyNumbers = LuckyNumbers.OrderBy(x => random.Next()).ToList();
+            //while (LuckyNumbers.Count < FirstCnt + SecondCnt + ThirdCnt)
+            //{
+            //    int tmp = random.Next(1, 101);
+            //    LuckyNumbers.Remove(tmp);
+            //    LuckyNumbers.Add(tmp);
+            //}
         }
     }
 }

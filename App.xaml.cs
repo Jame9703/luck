@@ -17,10 +17,11 @@ namespace luck
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
         /// 已执行，逻辑上等同于 main() 或 WinMain()。
         /// </summary>
+        public int FirstPrizeCount = 10;
+        public int SecondPrizeCount = 10;
+        public int ThirdPrizeCount = 10;
         public Luck Award = new Luck();
-        public int A = 1;
-        public int B = 1;
-        public int C = 1;
+
         public App()
         { 
             this.InitializeComponent();
@@ -37,7 +38,6 @@ namespace luck
             var view = ApplicationView.GetForCurrentView();
             view.FullScreenSystemOverlayMode = FullScreenSystemOverlayMode.Minimal;
             Frame rootFrame = Window.Current.Content as Frame;
-            Luck Award = new Luck();
             // 不要在窗口已包含内容时重复应用程序初始化，
             // 只需确保窗口处于活动状态
             if (rootFrame == null)
