@@ -1,4 +1,5 @@
 ﻿using System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -25,6 +26,11 @@ namespace luck
             int rt = (Application.Current as App).Award.judge_one();
             switch (rt)
             {
+                case 0:
+                    //未选择
+                    MessageDialog messageDialog1 = new MessageDialog("请先选择您的幸运数字");
+                    messageDialog1.ShowAsync();
+                    break;
                 case 1:
                     //一等奖
                     (Application.Current as App).FirstPrizeCount--;
@@ -41,9 +47,9 @@ namespace luck
                     I3.Visibility = Visibility.Visible;
                     break;
                 default:
-                    //没中奖，默认三等奖
-                    (Application.Current as App).ThirdPrizeCount--;
-                    I3.Visibility = Visibility.Visible;
+                    //所有奖项均已被抽完
+                    MessageDialog messageDialog2 = new MessageDialog("所有奖项均已被抽完");
+                    messageDialog2.ShowAsync();
                     break;
             }
         
