@@ -1,4 +1,5 @@
-﻿using Windows.ApplicationModel.Core;
+﻿using System.Linq;
+using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -54,12 +55,24 @@ namespace luck
                 IsSelect = true;
                 Button thisClickedButton = sender as Button;
                 int.TryParse(thisClickedButton.Name, out int name_to_int);
-                (Application.Current as App).Award.store_inputnum(name_to_int);
-                InputTextBox.Text = (Application.Current as App).Award.get_inputnum().ToString();
+                (Application.Current as App).Award.StoreInputNumber(name_to_int);
+                InputTextBox.Text = (Application.Current as App).Award.GetInputNumber().ToString();
                 thisClickedButton.Background = new SolidColorBrush(Colors.Green);
 
             }
-
+            else
+            {
+                foreach (var btn in select.Children.OfType<Button>().ToList())
+                {
+                    btn.Background = new SolidColorBrush(Colors.LightBlue);
+                }
+                IsSelect = true;
+                Button thisClickedButton = sender as Button;
+                int.TryParse(thisClickedButton.Name, out int name_to_int);
+                (Application.Current as App).Award.StoreInputNumber(name_to_int);
+                InputTextBox.Text = (Application.Current as App).Award.GetInputNumber().ToString();
+                thisClickedButton.Background = new SolidColorBrush(Colors.Green);
+            }
         }
 
 
@@ -77,8 +90,8 @@ namespace luck
         private void RenewButton_Click(object sender, RoutedEventArgs e)
         {
             IsSelect = false;
-            (Application.Current as App).Award.renew(FirstPrizeCount, SecondPrizeCount, ThirdPrizeCount);
-            InputTextBox.Text = (Application.Current as App).Award.get_inputnum().ToString();
+            (Application.Current as App).Award.Renew(FirstPrizeCount, SecondPrizeCount, ThirdPrizeCount);
+            InputTextBox.Text = (Application.Current as App).Award.GetInputNumber().ToString();
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)

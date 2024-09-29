@@ -2,8 +2,9 @@
 ///=================================luck.cs BY 李哲宇 ==============================
 ///=================================================================================
 ///=================================================================================
-///.setup();   初始化，参数:1、2、3等奖个数,暂时用不上
-///.judge_one();   判断是否中奖 0:未选择幸运数字 -1:所有奖项已被抽完，1、2、3:1、2、3等奖
+///.Setup();   初始化，参数:1、2、3等奖个数
+///.ChangePrizeProbability();  修改概率，参数:1、2、3等奖概率
+///.JudgePrize();   判断是否中奖 0:未选择幸运数字 -1:所有奖项已被抽完，1、2、3:1、2、3等奖
 /// </summary>
 using System;
 using System.Collections.Generic;
@@ -20,35 +21,37 @@ namespace luck
         //    ThirdPrizeCount = (Application.Current as App).ThirdPrizeCount;
         private List<int> LuckyNumbers = new List<int>();
         int inputnum = 0;
+        int FirstPrizeProbability = 10;//10%
+        int SecondPrizeProbability = 30;//30%
+        int ThirdPrizeProbability = 60;//60%
         //public Luck(int A = a, int B = b, int C = c)
         //{
-        //    FirstCnt = A; SecondCnt = B; ThirdCnt = C;
-        //    FillNum();
-        //}
-        //public void setup(int A, int B, int C)
-        //{
         //    FirstPrizeCount = A; SecondPrizeCount = B; ThirdPrizeCount = C;
-        //    FillLuckyNumbers();
         //}
-        public void renew(int A, int B, int C)
+        public void Setup(int A, int B, int C)//TODO:在设置页面调用
+        {
+            (Application.Current as App).FirstPrizeCount = A; (Application.Current as App).SecondPrizeCount = B; (Application.Current as App).ThirdPrizeCount = C;
+        }
+        public void ChangePrizeProbability(int A, int B,int C)//TODO:在设置页面调用
+        {
+            FirstPrizeProbability = A; SecondPrizeProbability = B; ThirdPrizeProbability = C;
+        }
+        public void Renew(int A, int B, int C)
         {
             inputnum=0;
             (Application.Current as App).FirstPrizeCount = A; (Application.Current as App).SecondPrizeCount = B; (Application.Current as App).ThirdPrizeCount = C;
             FillLuckyNumbers();
         }
-        public void store_inputnum(int name_to_int)//name_to_int为将100个按钮的Name转换为int的值
+        public void StoreInputNumber(int name_to_int)//name_to_int为将100个按钮的Name转换为int的值
         {
             inputnum=name_to_int;
         }
-        public int get_inputnum()
+        public int GetInputNumber()
         {
            return inputnum;
         }
-        public int judge_one()
+        public int JudgePrize()
         {
-            int FirstPrizeProbability = 10;//10%
-            int SecondPrizeProbability = 30;//30%
-            int ThirdPrizeProbability = 60;//60%
             FillLuckyNumbers();
             if (inputnum == 0) { return 0; }
             else

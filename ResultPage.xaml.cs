@@ -16,14 +16,13 @@ namespace luck
         {
             this.InitializeComponent();
             MainPage mainPage = new MainPage();
-            //if ((Application.Current as App).C <= 50) (Application.Current as App).Award.setup(15, 20, 65);
-            //(Application.Current as App).Award.setup(5, 15, 80);
+            //if ((Application.Current as App).C <= 50) (Application.Current as App).Award.ChangePrizeProbability(15, 20, 65);
 
-            
+
             I1.Visibility = Visibility.Collapsed;
             I3.Visibility = Visibility.Collapsed;
             I2.Visibility = Visibility.Collapsed;
-            int rt = (Application.Current as App).Award.judge_one();
+            int rt = (Application.Current as App).Award.JudgePrize();
             switch (rt)
             {
                 case 0:
@@ -60,7 +59,7 @@ namespace luck
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).Award.renew((Application.Current as App).FirstPrizeCount, (Application.Current as App).SecondPrizeCount, (Application.Current as App).ThirdPrizeCount);
+            (Application.Current as App).Award.Renew((Application.Current as App).FirstPrizeCount, (Application.Current as App).SecondPrizeCount, (Application.Current as App).ThirdPrizeCount);
             Frame.Navigate(typeof(MainPage));
         }
 
