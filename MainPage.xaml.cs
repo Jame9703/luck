@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
@@ -15,14 +17,10 @@ namespace luck
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        int FirstPrizeCount = (Application.Current as App).FirstPrizeCount,
-            SecondPrizeCount = (Application.Current as App).SecondPrizeCount,
-            ThirdPrizeCount = (Application.Current as App).ThirdPrizeCount;
+        private List<Button> buttons = new List<Button>();
         public MainPage()
         {
             this.InitializeComponent();
-
-
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
@@ -54,9 +52,9 @@ namespace luck
             {
                 IsSelect = true;
                 Button thisClickedButton = sender as Button;
-                int.TryParse(thisClickedButton.Name, out int name_to_int);
-                (Application.Current as App).Award.StoreInputNumber(name_to_int);
-                InputTextBox.Text = (Application.Current as App).Award.GetInputNumber().ToString();
+                int.TryParse(thisClickedButton.Name, out int selectedNumber);
+                Luck.SelectedNumber = selectedNumber;
+                InputTextBox.Text = selectedNumber.ToString();
                 thisClickedButton.Background = new SolidColorBrush(Colors.Green);
 
             }
@@ -68,9 +66,9 @@ namespace luck
                 }
                 IsSelect = true;
                 Button thisClickedButton = sender as Button;
-                int.TryParse(thisClickedButton.Name, out int name_to_int);
-                (Application.Current as App).Award.StoreInputNumber(name_to_int);
-                InputTextBox.Text = (Application.Current as App).Award.GetInputNumber().ToString();
+                int.TryParse(thisClickedButton.Name, out int selectedNumber);
+                Luck.SelectedNumber = selectedNumber;
+                InputTextBox.Text = selectedNumber.ToString();
                 thisClickedButton.Background = new SolidColorBrush(Colors.Green);
             }
         }
@@ -79,7 +77,7 @@ namespace luck
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             
-            Frame.Navigate(typeof(ResultPage));
+            Frame.Navigate(typeof(ResultPage), null, new DrillInNavigationTransitionInfo());
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
@@ -90,8 +88,8 @@ namespace luck
         private void RenewButton_Click(object sender, RoutedEventArgs e)
         {
             IsSelect = false;
-            (Application.Current as App).Award.Renew(FirstPrizeCount, SecondPrizeCount, ThirdPrizeCount);
-            InputTextBox.Text = (Application.Current as App).Award.GetInputNumber().ToString();
+            Luck.Renew(Luck.FirstPrizeCount, Luck.SecondPrizeCount, Luck.ThirdPrizeCount);
+            InputTextBox.Text = Luck.SelectedNumber.ToString();
             for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
@@ -110,6 +108,11 @@ namespace luck
                     select.Children.Add(btn);
                 }
             }
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(SettingsPage), null, new DrillInNavigationTransitionInfo());
         }
     }
 }

@@ -127,47 +127,42 @@
         </Style>
     </Page.Resources>
     <Grid>
-
-        <Image
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FocusVisualPrimaryBrush="Black"
-            Source="/Assets/科技活动背景_01.png"
-            Stretch="UniformToFill" />
-        <Grid x:Name="select" Margin="630,215,-45,0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
-        </Grid>
+        <ScrollViewer x:Name="SelectNumberScrollViewer" Margin="630,215,-45,10">
+            <Grid x:Name="select">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+        </ScrollViewer>
         <AppBarButton
             Width="100"
             Height="60"
             Margin="110,680,0,0"
             Background="#FFC0F2BC"
             Click="Button_Click"
-            FontFamily="ms-appx:///Assets/Fonts/HarmonyOS_Sans_SC_Medium.ttf#HarmonyOS Sans SC"
+            FontFamily="{StaticResource HarmonyOSSans}"
             Icon="Play"
             Label="开始" />
         <TextBlock
@@ -191,7 +186,7 @@
             Margin="463,679,0,0"
             Background="#FFF06002"
             Click="ExitButton_Click"
-            FontFamily="ms-appx:///Assets/Fonts/HarmonyOS_Sans_SC_Medium.ttf#HarmonyOS Sans SC"
+            FontFamily="{StaticResource HarmonyOSSans}"
             Icon="Clear"
             Label="退出" />
         <AppBarButton
@@ -201,8 +196,14 @@
             Margin="291,679,0,0"
             Background="#FF02F0DF"
             Click="RenewButton_Click"
-            FontFamily="ms-appx:///Assets/Fonts/HarmonyOS_Sans_SC_Medium.ttf#HarmonyOS Sans SC"
+            FontFamily="{StaticResource HarmonyOSSans}"
             Icon="Refresh"
             Label="重置" />
+        <Button
+            x:Name="SettingsButton"
+            Margin="110,805,0,0"
+            VerticalAlignment="Top"
+            Click="SettingsButton_Click"
+            Content="设置" />
     </Grid>
 </Page>

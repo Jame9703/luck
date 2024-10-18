@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -17,10 +18,6 @@ namespace luck
         /// 初始化单一实例应用程序对象。这是执行的创作代码的第一行，
         /// 已执行，逻辑上等同于 main() 或 WinMain()。
         /// </summary>
-        public int FirstPrizeCount = 10;
-        public int SecondPrizeCount = 10;
-        public int ThirdPrizeCount = 10;
-        public Luck Award = new Luck();
 
         public App()
         { 
@@ -34,6 +31,29 @@ namespace luck
         /// <param name="e">有关启动请求和过程的详细信息。</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            var localSettings = ApplicationData.Current.LocalSettings;
+            if (localSettings.Values["FirstPrizeCount"] != null && localSettings.Values["SecondPrizeCount"] != null && localSettings.Values["ThirdPrizeCount"] != null)
+            {
+                Luck.Setup((int)localSettings.Values["FirstPrizeCount"], (int)localSettings.Values["SecondPrizeCount"], (int)localSettings.Values["ThirdPrizeCount"]);
+            }
+            else
+            {
+                Luck.Setup(10,90,400);//默认奖项数
+                localSettings.Values["FirstPrizeCount"] = 10;
+                localSettings.Values["SecondPrizeCount"] = 90;
+                localSettings.Values["ThirdPrizeCount"] = 400;
+            }
+            if (localSettings.Values["FirstPrizeProbability"] != null && localSettings.Values["SecondPrizeProbability"] != null && localSettings.Values["ThirdPrizeProbability"] != null)
+            {
+                Luck.SetPrizeProbability((int)localSettings.Values["FirstPrizeProbability"], (int)localSettings.Values["SecondPrizeProbability"], (int)localSettings.Values["ThirdPrizeProbability"]);
+            }
+            else
+            {
+                Luck.SetPrizeProbability(10, 30, 60);//默认奖项概率
+                localSettings.Values["FirstPrizeProbability"] = 10;
+                localSettings.Values["SecondPrizeProbability"] = 30;
+                localSettings.Values["ThirdPrizeProbability"] = 60;
+            }
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.FullScreen;
             var view = ApplicationView.GetForCurrentView();
             view.FullScreenSystemOverlayMode = FullScreenSystemOverlayMode.Minimal;

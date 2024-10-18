@@ -1,7 +1,9 @@
 ﻿using System;
+using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -12,17 +14,14 @@ namespace luck
     /// </summary>
     public sealed partial class ResultPage : Page
     {
+        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         public ResultPage()
         {
             this.InitializeComponent();
-            MainPage mainPage = new MainPage();
-            //if ((Application.Current as App).C <= 50) (Application.Current as App).Award.ChangePrizeProbability(15, 20, 65);
-
-
             I1.Visibility = Visibility.Collapsed;
             I3.Visibility = Visibility.Collapsed;
             I2.Visibility = Visibility.Collapsed;
-            int rt = (Application.Current as App).Award.JudgePrize();
+            int rt = Luck.JudgePrize();
             switch (rt)
             {
                 case 0:
@@ -32,17 +31,17 @@ namespace luck
                     break;
                 case 1:
                     //一等奖
-                    (Application.Current as App).FirstPrizeCount--;
+                    Luck.FirstPrizeCount--;
                     I1.Visibility = Visibility.Visible;
                     break;
                 case 2:
                     //二等奖
-                    (Application.Current as App).SecondPrizeCount--;
+                    Luck.SecondPrizeCount--;
                     I2.Visibility = Visibility.Visible;
                     break;
                 case 3:
                     //三等奖
-                    (Application.Current as App).ThirdPrizeCount--;
+                    Luck.ThirdPrizeCount--;
                     I3.Visibility = Visibility.Visible;
                     break;
                 default:
@@ -53,14 +52,17 @@ namespace luck
             }
         
             ResultTextBox3.Text = String.Empty;
-            ResultTextBox3.Text += "剩余一等奖个数:" + (Application.Current as App).FirstPrizeCount.ToString();
-            ResultTextBox3.Text += "\n剩余二等奖个数:" + (Application.Current as App).SecondPrizeCount.ToString();
-            ResultTextBox3.Text += "\n剩余三等奖个数:" + (Application.Current as App).ThirdPrizeCount.ToString();
+            ResultTextBox3.Text += "剩余一等奖个数:" + Luck.FirstPrizeCount.ToString();
+            ResultTextBox3.Text += "\n剩余二等奖个数:" + Luck.SecondPrizeCount.ToString();
+            ResultTextBox3.Text += "\n剩余三等奖个数:" + Luck.ThirdPrizeCount.ToString();
+            localSettings.Values["FirstPrizeCount"] = Luck.FirstPrizeCount;
+            localSettings.Values["SecondPrizeCount"] = Luck.SecondPrizeCount;
+            localSettings.Values["ThirdPrizeCount"] = Luck.ThirdPrizeCount;
         }
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            (Application.Current as App).Award.Renew((Application.Current as App).FirstPrizeCount, (Application.Current as App).SecondPrizeCount, (Application.Current as App).ThirdPrizeCount);
-            Frame.Navigate(typeof(MainPage));
+            Luck.Renew(Luck.FirstPrizeCount, Luck.SecondPrizeCount, Luck.ThirdPrizeCount);
+            Frame.Navigate(typeof(MainPage), null, new DrillInNavigationTransitionInfo());
         }
 
         
