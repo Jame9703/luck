@@ -2,6 +2,7 @@
     x:Class="luck.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:luck"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -10,104 +11,162 @@
     mc:Ignorable="d">
 
     <Grid>
-        <muxc:NumberBox
-            x:Name="FirstPrizeCountNumberBox"
-            Width="195"
-            Height="44"
-            Margin="177,56,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            FontFamily="{StaticResource HarmonyOSSans}"
-            Minimum="0" />
-        <muxc:NumberBox
-            x:Name="SecondPrizeCountNumberBox"
-            Width="195"
-            Margin="177,125,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            FontFamily="{StaticResource HarmonyOSSans}"
-            Minimum="0" />
-        <muxc:NumberBox
-            x:Name="ThirdPrizeCountNumberBox"
-            Width="195"
-            Margin="177,185,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            FontFamily="{StaticResource HarmonyOSSans}"
-            Minimum="0" />
-        <TextBlock
-            Margin="60,56,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            FontFamily="{StaticResource HarmonyOSSans}"
-            Text="一等奖个数"
-            TextWrapping="Wrap" />
-        <TextBlock
-            Margin="60,115,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            FontFamily="{StaticResource HarmonyOSSans}"
-            Text="二等奖个数"
-            TextWrapping="Wrap" />
-        <TextBlock
-            Margin="60,185,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            FontFamily="{StaticResource HarmonyOSSans}"
-            Text="三等奖个数"
-            TextWrapping="Wrap" />
-        <muxc:NumberBox
-            x:Name="FirstPrizeProbabilityNumberBox"
-            Width="195"
-            Height="44"
-            Margin="177,280,0,0"
-            HorizontalAlignment="Left"
-            ValueChanged="FirstPrizeProbabilityNumberBox_ValueChanged"
-            VerticalAlignment="Top"
-            FontFamily="{StaticResource HarmonyOSSans}"
-            Maximum="100"
-            Minimum="0" />
-        <muxc:NumberBox
-            x:Name="SecondPrizeProbabilityNumberBox"
-            Width="195"
-            Margin="177,349,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            ValueChanged="SecondPrizeProbabilityNumberBox_ValueChanged"
-            FontFamily="{StaticResource HarmonyOSSans}"
-            Maximum="100"
-            Minimum="0" />
-        <muxc:NumberBox
-            x:Name="ThirdPrizeProbabilityNumberBox"
-            Width="195"
-            IsEnabled="False"
-            Margin="177,409,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            FontFamily="{StaticResource HarmonyOSSans}"
-            Maximum="100"
-            Minimum="0" />
-        <TextBlock
-            Margin="60,280,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            FontFamily="{StaticResource HarmonyOSSans}"
-            Text="一等奖概率"
-            TextWrapping="Wrap" />
-        <TextBlock
-            Margin="60,339,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            FontFamily="{StaticResource HarmonyOSSans}"
-            Text="二等奖概率"
-            TextWrapping="Wrap" />
-        <TextBlock
-            Margin="60,409,0,0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Top"
-            FontFamily="{StaticResource HarmonyOSSans}"
-            Text="三等奖概率"
-            TextWrapping="Wrap" />
+        <StackPanel Margin="0,50,0,0">
+            <controls:SettingsExpander
+                Margin="10,0,20,0"
+                VerticalAlignment="Top"
+                Description="选择要显示的应用主题"
+                FontFamily="{StaticResource HarmonyOSSans}"
+                Header="应用程序主题"
+                IsTabStop="True">
+                <controls:SettingsExpander.HeaderIcon>
+                    <FontIcon Glyph="&#xE790;" />
+                </controls:SettingsExpander.HeaderIcon>
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard HorizontalContentAlignment="Left" ContentAlignment="Left">
+                        <StackPanel Margin="-12,0,0,0" Orientation="Vertical">
+                            <muxc:RadioButtons x:Name="AppearanceRadioButtons" SelectionChanged="AppearanceRadioButtons_SelectionChanged">
+                                <RadioButton Content="浅色" FontFamily="{StaticResource HarmonyOSSans}" />
+                                <RadioButton Content="深色" FontFamily="{StaticResource HarmonyOSSans}" />
+                                <RadioButton Content="使用系统设置" FontFamily="{StaticResource HarmonyOSSans}" />
+                            </muxc:RadioButtons>
+                        </StackPanel>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+            <controls:SettingsExpander
+                Margin="10,0,20,0"
+                VerticalAlignment="Top"
+                Description="分别更改一等奖、二等奖、三等奖的奖项数量"
+                FontFamily="{StaticResource HarmonyOSSans}"
+                Header="更改奖项数量"
+                IsTabStop="True">
+                <controls:SettingsExpander.HeaderIcon>
+                    <SymbolIcon Symbol="WebCam" />
+                </controls:SettingsExpander.HeaderIcon>
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard HorizontalContentAlignment="Left" ContentAlignment="Left">
+                        <Grid Margin="0,0,0,0">
+                            <muxc:NumberBox
+                                x:Name="FirstPrizeCountNumberBox"
+                                Width="195"
+                                Margin="100,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontFamily="{StaticResource HarmonyOSSans}"
+                                Minimum="0" />
+                            <muxc:NumberBox
+                                x:Name="SecondPrizeCountNumberBox"
+                                Width="195"
+                                Margin="100,50,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontFamily="{StaticResource HarmonyOSSans}"
+                                Minimum="0" />
+                            <muxc:NumberBox
+                                x:Name="ThirdPrizeCountNumberBox"
+                                Width="195"
+                                Margin="100,100,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontFamily="{StaticResource HarmonyOSSans}"
+                                Minimum="0" />
+                            <TextBlock
+                                Margin="0,5,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontFamily="{StaticResource HarmonyOSSans}"
+                                Text="一等奖个数"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,55,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontFamily="{StaticResource HarmonyOSSans}"
+                                Text="二等奖个数"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,105,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontFamily="{StaticResource HarmonyOSSans}"
+                                Text="三等奖个数"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+            <controls:SettingsExpander
+                Margin="10,0,20,0"
+                VerticalAlignment="Top"
+                Description="更改一、二、三等奖的奖项概率并允许更改某一奖项被抽完后其他奖项概率"
+                FontFamily="{StaticResource HarmonyOSSans}"
+                Header="更改奖项概率"
+                IsTabStop="True">
+                <controls:SettingsExpander.HeaderIcon>
+                    <SymbolIcon Symbol="Permissions" />
+                </controls:SettingsExpander.HeaderIcon>
+                <controls:SettingsExpander.Items>
+                    <controls:SettingsCard HorizontalContentAlignment="Left" ContentAlignment="Left">
+                        <Grid>
+                            <muxc:NumberBox
+                                x:Name="FirstPrizeProbabilityNumberBox"
+                                Width="195"
+                                Margin="100,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontFamily="{StaticResource HarmonyOSSans}"
+                                Maximum="100"
+                                Minimum="0"
+                                ValueChanged="FirstPrizeProbabilityNumberBox_ValueChanged" />
+                            <muxc:NumberBox
+                                x:Name="SecondPrizeProbabilityNumberBox"
+                                Width="195"
+                                Margin="100,50,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontFamily="{StaticResource HarmonyOSSans}"
+                                Maximum="100"
+                                Minimum="0"
+                                ValueChanged="SecondPrizeProbabilityNumberBox_ValueChanged" />
+                            <muxc:NumberBox
+                                x:Name="ThirdPrizeProbabilityNumberBox"
+                                Width="195"
+                                Margin="100,100,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontFamily="{StaticResource HarmonyOSSans}"
+                                IsEnabled="False"
+                                Maximum="100"
+                                Minimum="0" />
+                            <TextBlock
+                                Margin="0,5,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontFamily="{StaticResource HarmonyOSSans}"
+                                Text="一等奖概率"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,55,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontFamily="{StaticResource HarmonyOSSans}"
+                                Text="二等奖概率"
+                                TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,105,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                FontFamily="{StaticResource HarmonyOSSans}"
+                                Text="三等奖概率"
+                                TextWrapping="Wrap" />
+                        </Grid>
+                    </controls:SettingsCard>
+                </controls:SettingsExpander.Items>
+            </controls:SettingsExpander>
+        </StackPanel>
+
+
         <Button
             x:Name="SaveButton"
             Margin="60,465,0,0"

@@ -1,4 +1,6 @@
 ﻿using Windows.Storage;
+using Windows.UI.ViewManagement;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -16,6 +18,14 @@ namespace luck
         public SettingsPage()
         {
             this.InitializeComponent();
+            if (localSettings.Values["Theme"] != null)
+            {
+                AppearanceRadioButtons.SelectedIndex = (int)ApplicationData.Current.LocalSettings.Values["Theme"];
+            }
+            else
+            {
+                AppearanceRadioButtons.SelectedIndex = 2;
+            }
             FirstPrizeCountNumberBox.Text = Luck.FirstPrizeCount.ToString();
             SecondPrizeCountNumberBox.Text = Luck.SecondPrizeCount.ToString();
             ThirdPrizeCountNumberBox.Text = Luck.ThirdPrizeCount.ToString();
@@ -70,6 +80,45 @@ namespace luck
                 SecondPrizeProbabilityNumberBox.Value--;
             }
             ThirdPrizeProbabilityNumberBox.Value = 100 - FirstPrizeProbabilityNumberBox.Value - SecondPrizeProbabilityNumberBox.Value;
+        }
+        private void AppearanceRadioButtons_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //SelectedIndex Theme
+
+            //         0           Light
+
+            //         1           Dark
+
+            //         2           Default(Use system settings)
+
+            ApplicationData.Current.LocalSettings.Values["Theme"] = AppearanceRadioButtons.SelectedIndex;
+            (Window.Current.Content as Frame).RequestedTheme = AppearanceRadioButtons.SelectedIndex switch
+            {
+                0 => ElementTheme.Light,
+                1 => ElementTheme.Dark,
+                _ => ElementTheme.Default
+            };
+
+            var view = ApplicationView.GetForCurrentView();
+            if (AppearanceRadioButtons.SelectedIndex == 0)
+            {
+                view.TitleBar.ButtonForegroundColor = ((Color)Application.Current.Resources["SystemAccentColor"]);
+            }
+            else if (AppearanceRadioButtons.SelectedIndex == 1)
+            {
+                view.TitleBar.ButtonForegroundColor = Colors.White;
+            }
+            else
+            {
+                if (Application.Current.RequestedTheme == ApplicationTheme.Dark)
+                {
+                    view.TitleBar.ButtonForegroundColor = Colors.White;
+                }
+                else if (Application.Current.RequestedTheme == ApplicationTheme.Light)
+                {
+                    view.TitleBar.ButtonForegroundColor = ((Color)Application.Current.Resources["SystemAccentColor"]);
+                }
+            }
         }
     }
 }

@@ -66,7 +66,15 @@ namespace luck
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
-
+                if (localSettings.Values["Theme"] != null)
+                {
+                    rootFrame.RequestedTheme = (int)localSettings.Values["Theme"] switch
+                    {
+                        0 => ElementTheme.Light,
+                        1 => ElementTheme.Dark,
+                        _ => ElementTheme.Default
+                    };
+                }
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
                 {
                     //TODO: 从之前挂起的应用程序加载状态
