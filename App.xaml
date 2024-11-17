@@ -11,6 +11,19 @@
                 <ResourceDictionary>
                     <FontFamily x:Key="HarmonyOSSans">ms-appx:///Assets/Fonts/HarmonyOS_Sans_SC_Medium.ttf#HarmonyOS Sans SC</FontFamily>
                 </ResourceDictionary>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <!--  定义浅色主题资源  -->
+                            <SolidColorBrush x:Key="1" Color="#FF8CF3FF"></SolidColorBrush>
+                            <Color x:Key="RippleColor" >#FF8CF3FF</Color>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <!--  定义深色主题资源  -->
+                            <Color x:Key="RippleColor">#FFE38DD8</Color>
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
             </controls:XamlControlsResources.MergedDictionaries>
         </controls:XamlControlsResources>
     </Application.Resources>
